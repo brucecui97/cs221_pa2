@@ -119,6 +119,9 @@ template <class T> Stack<T>::Stack()
     /**
      * @todo Your code here!
      */
+    items = new T[DEFAULTCAPACITY];
+    num_items = 0;
+    
 }
 
 /**
