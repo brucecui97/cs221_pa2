@@ -121,6 +121,8 @@ template <class T> Stack<T>::Stack()
      */
     items = new T[DEFAULTCAPACITY];
     num_items = 0;
+    max_items = DEFAULTCAPACITY;
+
     
 }
 
@@ -133,6 +135,8 @@ template <class T> Stack<T>::~Stack()
     /**
      * @todo Your code here!
      */
+
+    delete items;
 }
 
 /**
@@ -150,6 +154,9 @@ void Stack<T>::push(const T &newItem){
     /**
      * @todo Your code here!
      */
+    if (num_items<max_items){
+        items[num_items] = newItem;
+    }
 };
 
 /**
