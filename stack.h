@@ -88,6 +88,8 @@ template <class T> class Stack : public OrderingStructure<T>
      */
     size_t num_items;
 
+    size_t top;
+
     /**
      * The dynamic array representing our Stack
      */
@@ -122,6 +124,7 @@ template <class T> Stack<T>::Stack()
     items = new T[DEFAULTCAPACITY];
     num_items = 0;
     max_items = DEFAULTCAPACITY;
+    top = -1;
 
     
 }
@@ -154,8 +157,25 @@ void Stack<T>::push(const T &newItem){
     /**
      * @todo Your code here!
      */
+   
+
     if (num_items<max_items){
-        items[num_items] = newItem;
+        top++;
+        num_items++;
+        items[top] = newItem;
+    }
+
+    else{
+        T* new_items = new T[max_items*EXPANSIONFACTOR];
+        max_items = max_items*EXPANSIONFACTOR;
+        for (int i = 0; i<num_items; i++){
+            new_items[i] = items[i];
+        }
+        delete items;
+        items = new_items;
+        top++;
+        num_items++;
+        items[top] = newItem;
     }
 };
 
@@ -173,6 +193,10 @@ T Stack<T>::pop(){
     /**
      * @todo Your code here!
      */
+    T to_return = items[top];
+    top--;
+    num_items--;
+    return to_return;
 };
 
 /**
@@ -199,6 +223,7 @@ template <class T> T Stack<T>::remove()
      * @todo Your code here! Hint: this should call another Stack function
      * to remove an element from the Stack and return it.
      */
+    return pop();
 }
 
 /**
@@ -214,6 +239,7 @@ T Stack<T>::peek(){
     /**
      * @todo Your code here!
      */
+    return items[top];
 };
 
 /**
@@ -226,6 +252,7 @@ bool Stack<T>::isEmpty() const {
     /**
      * @todo Your code here!
      */
+    return num_items == 0;
 };
 
 /**
@@ -241,6 +268,7 @@ size_t Stack<T>::capacity() const {
     /**
      * @todo Your code here!
      */
+    return max_items;
 };
 
 /**
@@ -253,6 +281,7 @@ size_t Stack<T>::size() const {
     /**
      * @todo Your code here!
      */
+    return num_items;
 };
 
 /**
