@@ -62,6 +62,30 @@ TEST_CASE("stack::push not exceed default", "[weight=1][part=stack]")
     
 }
 
+// TEST_CASE("stack::resize", "[weight=1][part=stack]")
+// {
+//     Stack<int> intStack;
+//     vector<int> result;
+//     vector<int> expected;
+//     REQUIRE(intStack.capacity()==DEFAULTCAPACITY);
+//     for (int i = 10; i > 0; i--)
+//     {
+//         expected.push_back(i);
+//     }
+//     for (int i = 1; i <= 10; i++)
+//     {
+//         intStack.push(i);
+//     }
+
+//     REQUIRE(intStack.capacity()==DEFAULTCAPACITY*EXPANSIONFACTOR*EXPANSIONFACTOR);
+    
+//     intStack.resize(11);
+
+//     REQUIRE(intStack.capacity()==DEFAULTCAPACITY*EXPANSIONFACTOR*EXPANSIONFACTOR);
+
+    
+// }
+
 // TEST_CASE("queue::basic functions", "[weight=1][part=queue]")
 // {
 //     // cout << "Testing Queue..." << endl;
