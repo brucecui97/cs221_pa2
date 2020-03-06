@@ -1,7 +1,7 @@
 /**
  * @file filler.cpp
  * Implementation of functions in the filler namespace.
- *
+
  */
 
 /**
@@ -16,6 +16,7 @@ animation filler::fillBFS(FillerConfig &config)
      * @todo Your code here! You should replace the following line with a
      * correct call to fill.
      */
+    return fill<Queue> (config);
 }
 
 /**
@@ -30,6 +31,9 @@ animation filler::fillDFS(FillerConfig &config)
      * @todo Your code here! You should replace the following line with a
      * correct call to fill.
      */
+
+    return fill<Stack> (config);
+
 }
 
 /**
@@ -40,6 +44,9 @@ animation filler::fillDFS(FillerConfig &config)
  */
 template <template <class T> class OrderingStructure> animation filler::fill(FillerConfig &config)
 {
+
+    OrderingStructure<point> os;
+
     /**
      * @todo You need to implement this function!
      *
