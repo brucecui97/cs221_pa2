@@ -12,9 +12,16 @@
  */
 template <class T> Stack<T>::Stack()
 {
+    
     /**
      * @todo Your code here!
      */
+    items = new T[DEFAULTCAPACITY];
+    num_items = 0;
+    max_items = DEFAULTCAPACITY;
+    //top = -1;
+
+    
 }
 
 /**
@@ -26,6 +33,8 @@ template <class T> Stack<T>::~Stack()
     /**
      * @todo Your code here!
      */
+
+    delete items;
 }
 
 /**
@@ -43,6 +52,20 @@ void Stack<T>::push(const T &newItem){
     /**
      * @todo Your code here!
      */
+   
+
+    if (num_items<max_items){
+        //top++;
+        num_items++;
+        items[num_items-1] = newItem;
+    }
+
+    else{
+        resize(max_items*EXPANSIONFACTOR);
+        //top++;
+        num_items++;
+        items[num_items-1] = newItem;
+    }
 };
 
 /**
@@ -59,6 +82,14 @@ T Stack<T>::pop(){
     /**
      * @todo Your code here!
      */
+    T to_return = items[num_items-1];
+    //top--;
+    num_items--;
+    
+    if (num_items<1.0/SHRINKRATE){
+        resize(max_items/EXPANSIONFACTOR);
+    }
+    return to_return;
 };
 
 /**
@@ -72,6 +103,7 @@ template <class T> void Stack<T>::add(const T &theItem)
      * @todo Your code here! Hint: this should call another Stack function
      *  to add the element to the Stack.
      */
+    push(theItem);
 }
 
 /**
@@ -85,6 +117,7 @@ template <class T> T Stack<T>::remove()
      * @todo Your code here! Hint: this should call another Stack function
      * to remove an element from the Stack and return it.
      */
+    return pop();
 }
 
 /**
@@ -100,6 +133,7 @@ T Stack<T>::peek(){
     /**
      * @todo Your code here!
      */
+    return items[num_items-1];
 };
 
 /**
@@ -112,6 +146,7 @@ bool Stack<T>::isEmpty() const {
     /**
      * @todo Your code here!
      */
+    return num_items == 0;
 };
 
 /**
@@ -127,6 +162,7 @@ size_t Stack<T>::capacity() const {
     /**
      * @todo Your code here!
      */
+    return max_items;
 };
 
 /**
@@ -139,6 +175,7 @@ size_t Stack<T>::size() const {
     /**
      * @todo Your code here!
      */
+    return num_items;
 };
 
 /**
@@ -152,4 +189,13 @@ void Stack<T>::resize(size_t n){
     /**
      * @todo Your code here!
      */
+
+        T* new_items = new T[n];
+        max_items = n;
+        for (int i = 0; i<num_items; i++){
+            new_items[i] = items[i];
+        }
+        delete items;
+        items = new_items;
+
 };
