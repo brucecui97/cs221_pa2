@@ -77,6 +77,8 @@ void Stack<T>::push(const T &newItem){
  *
  * @return The element that used to be at the top of the Stack.
  */
+
+
 template <class T>
 T Stack<T>::pop(){
     /**
@@ -85,11 +87,10 @@ T Stack<T>::pop(){
     T to_return = items[num_items-1];
     //top--;
     num_items--;
-    
-    if (num_items<1.0/SHRINKRATE){
+    if (num_items<max_items/SHRINKRATE && max_items>DEFAULTCAPACITY){
         resize(max_items/EXPANSIONFACTOR);
     }
-    return to_return;
+    return to_return; 
 };
 
 /**
