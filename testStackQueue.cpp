@@ -7,12 +7,13 @@
 
 using namespace std;
 
-TEST_CASE("stack::basic functions", "[weight=1][part=stack]")
+TEST_CASE("stack::push and pop exceed default", "[weight=1][part=stack]")
 {
     // cout << "Testing Stack..." << endl;
     Stack<int> intStack;
     vector<int> result;
     vector<int> expected;
+    REQUIRE(intStack.capacity()==DEFAULTCAPACITY);
     for (int i = 10; i > 0; i--)
     {
         expected.push_back(i);
@@ -21,6 +22,9 @@ TEST_CASE("stack::basic functions", "[weight=1][part=stack]")
     {
         intStack.push(i);
     }
+
+    REQUIRE(intStack.capacity()==DEFAULTCAPACITY*EXPANSIONFACTOR*EXPANSIONFACTOR);
+    
     // cout << intStack.peek() << endl;
     while (!intStack.isEmpty())
     {
@@ -30,25 +34,53 @@ TEST_CASE("stack::basic functions", "[weight=1][part=stack]")
     REQUIRE(result == expected);
 }
 
-TEST_CASE("queue::basic functions", "[weight=1][part=queue]")
+
+TEST_CASE("stack::push not exceed default", "[weight=1][part=stack]")
 {
-    // cout << "Testing Queue..." << endl;
-    Queue<int> intQueue;
+    // cout << "Testing Stack..." << endl;
+    Stack<int> intStack;
     vector<int> result;
     vector<int> expected;
-    for (int i = 1; i <= 10; i++)
+    for (int i = DEFAULTCAPACITY; i > 0; i--)
     {
         expected.push_back(i);
     }
-    for (int i = 1; i <= 10; i++)
+    for (int i = 1; i <= DEFAULTCAPACITY; i++)
     {
-        intQueue.enqueue(i);
+        intStack.push(i);
     }
-    // cout << intStack.peek() << endl;
-    while (!intQueue.isEmpty())
+    
+    REQUIRE(intStack.capacity()==DEFAULTCAPACITY);
+
+
+    while (!intStack.isEmpty())
     {
-        result.push_back(intQueue.dequeue());
+        result.push_back(intStack.pop());
         // cout << intStack.pop() << " ";
     }
     REQUIRE(result == expected);
+    
 }
+
+// TEST_CASE("queue::basic functions", "[weight=1][part=queue]")
+// {
+//     // cout << "Testing Queue..." << endl;
+//     Queue<int> intQueue;
+//     vector<int> result;
+//     vector<int> expected;
+//     for (int i = 1; i <= 10; i++)
+//     {
+//         expected.push_back(i);
+//     }
+//     for (int i = 1; i <= 10; i++)
+//     {
+//         intQueue.enqueue(i);
+//     }
+//     // cout << intStack.peek() << endl;
+//     while (!intQueue.isEmpty())
+//     {
+//         result.push_back(intQueue.dequeue());
+//         // cout << intStack.pop() << " ";
+//     }
+//     REQUIRE(result == expected);
+// }
