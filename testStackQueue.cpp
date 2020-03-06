@@ -86,25 +86,25 @@ TEST_CASE("stack::push not exceed default", "[weight=1][part=stack]")
     
 // }
 
-// TEST_CASE("queue::basic functions", "[weight=1][part=queue]")
-// {
-//     // cout << "Testing Queue..." << endl;
-//     Queue<int> intQueue;
-//     vector<int> result;
-//     vector<int> expected;
-//     for (int i = 1; i <= 10; i++)
-//     {
-//         expected.push_back(i);
-//     }
-//     for (int i = 1; i <= 10; i++)
-//     {
-//         intQueue.enqueue(i);
-//     }
-//     // cout << intStack.peek() << endl;
-//     while (!intQueue.isEmpty())
-//     {
-//         result.push_back(intQueue.dequeue());
-//         // cout << intStack.pop() << " ";
-//     }
-//     REQUIRE(result == expected);
-// }
+TEST_CASE("queue::basic functions", "[weight=1][part=queue]")
+{
+    // cout << "Testing Queue..." << endl;
+    Queue<int> intQueue;
+    vector<int> result;
+    vector<int> expected;
+    for (int i = 1; i <= 10; i++)
+    {
+        expected.push_back(i);
+    }
+    for (int i = 1; i <= 10; i++)
+    {
+        intQueue.enqueue(i);
+    }
+    // cout << intStack.peek() << endl;
+    while (!intQueue.isEmpty())
+    {
+        result.push_back(intQueue.dequeue());
+        // cout << intStack.pop() << " ";
+    }
+    REQUIRE(result == expected);
+}

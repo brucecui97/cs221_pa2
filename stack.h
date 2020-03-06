@@ -88,7 +88,7 @@ template <class T> class Stack : public OrderingStructure<T>
      */
     size_t num_items;
 
-    size_t top;
+    //size_t top;
 
     /**
      * The dynamic array representing our Stack
@@ -124,7 +124,7 @@ template <class T> Stack<T>::Stack()
     items = new T[DEFAULTCAPACITY];
     num_items = 0;
     max_items = DEFAULTCAPACITY;
-    top = -1;
+    //top = -1;
 
     
 }
@@ -160,22 +160,16 @@ void Stack<T>::push(const T &newItem){
    
 
     if (num_items<max_items){
-        top++;
+        //top++;
         num_items++;
-        items[top] = newItem;
+        items[num_items-1] = newItem;
     }
 
     else{
-        T* new_items = new T[max_items*EXPANSIONFACTOR];
-        max_items = max_items*EXPANSIONFACTOR;
-        for (int i = 0; i<num_items; i++){
-            new_items[i] = items[i];
-        }
-        delete items;
-        items = new_items;
-        top++;
+        resize(max_items*EXPANSIONFACTOR);
+        //top++;
         num_items++;
-        items[top] = newItem;
+        items[num_items-1] = newItem;
     }
 };
 
@@ -193,9 +187,13 @@ T Stack<T>::pop(){
     /**
      * @todo Your code here!
      */
-    T to_return = items[top];
-    top--;
+    T to_return = items[num_items-1];
+    //top--;
     num_items--;
+    
+    if (num_items<1.0/SHRINKRATE){
+        resize(max_items/EXPANSIONFACTOR);
+    }
     return to_return;
 };
 
@@ -210,6 +208,7 @@ template <class T> void Stack<T>::add(const T &theItem)
      * @todo Your code here! Hint: this should call another Stack function
      *  to add the element to the Stack.
      */
+    push(theItem);
 }
 
 /**
@@ -239,7 +238,7 @@ T Stack<T>::peek(){
     /**
      * @todo Your code here!
      */
-    return items[top];
+    return items[num_items-1];
 };
 
 /**
@@ -295,8 +294,18 @@ void Stack<T>::resize(size_t n){
     /**
      * @todo Your code here!
      */
+
+        T* new_items = new T[n];
+        max_items = n;
+        for (int i = 0; i<num_items; i++){
+            new_items[i] = items[i];
+        }
+        delete items;
+        items = new_items;
+
 };
 
 //#include "stack.cpp" // needed for template instantiation
-
+//#include "stack.cpp"
 #endif
+
