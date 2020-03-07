@@ -18,7 +18,7 @@ HSLAPixel borderColorPicker::operator()(point p)
     int p_y = (int)p.y;
     int bSize = (int)borderSize;
 
-    if (p.x<=borderSize || img.width()-borderSize<=p.x ||p.y<=borderSize || img.height()-borderSize<=p.y){
+    if (p.x<borderSize || img.width()-borderSize<=p.x ||p.y<borderSize || img.height()-borderSize<=p.y){
         return fillColor;
     }
 
@@ -41,5 +41,5 @@ HSLAPixel borderColorPicker::operator()(point p)
         }
     }
 
-    return *img.getPixel(p.x, p.y);
+    return HSLAPixel(img.getPixel(p.x, p.y)->h,img.getPixel(p.x, p.y)->s,img.getPixel(p.x, p.y)->l,img.getPixel(p.x, p.y)->a);
 }
