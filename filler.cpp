@@ -16,7 +16,7 @@ animation filler::fillBFS(FillerConfig &config)
      * @todo Your code here! You should replace the following line with a
      * correct call to fill.
      */
-    return fill<Queue> (config);
+    return fill<Queue>(config);
 }
 
 /**
@@ -32,8 +32,7 @@ animation filler::fillDFS(FillerConfig &config)
      * correct call to fill.
      */
 
-    return fill<Stack> (config);
-
+    return fill<Stack>(config);
 }
 
 /**
@@ -42,10 +41,14 @@ animation filler::fillDFS(FillerConfig &config)
  * @param  config     FillerConfig struct with data for flood fill of image
  * @return animation  object illustrating progression of flood fill algorithm
  */
-template <template <class T> class OrderingStructure> animation filler::fill(FillerConfig &config)
+template <template <class T> class OrderingStructure>
+animation filler::fill(FillerConfig &config)
 {
+    set<pair<int, int>> visited;
 
     OrderingStructure<point> os;
+
+    os.add(config.centers.at(0));
 
     /**
      * @todo You need to implement this function!
