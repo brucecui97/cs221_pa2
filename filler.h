@@ -71,6 +71,10 @@ template <template <class T> class OrderingStructure> animation fill(FillerConfi
 
 // Add any helper functions here
 
+bool isValid(point p,FillerConfig config){
+    return (0<=p.x && p.x<config.img.width() && 0<=p.y && p.y<config.img.height());
+}
+
 } // namespace filler
 
 #include "filler.cpp"
