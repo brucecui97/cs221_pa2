@@ -44,11 +44,64 @@ animation filler::fillDFS(FillerConfig &config)
 template <template <class T> class OrderingStructure>
 animation filler::fill(FillerConfig &config)
 {
+    animation res;
     set<pair<int, int>> visited;
 
     OrderingStructure<point> os;
 
-    os.add(config.centers.at(0));
+    for (int i = 0;i<config.centers.size();i++){
+        int k = 0;
+        center curr_ctr = config.centers.at(i);
+        colorPicker* curr_picker = config.pickers.at(i);
+
+        // Change center node color and mark as visited
+        visited.insert(pair<int,int> (curr_ctr.x,curr_ctr.y));
+        (*curr_picker)(point(curr_ctr));
+
+
+        //add center node to queue
+        os.add(point(curr_ctr));
+        while(!os.isEmpty()){
+            point curr_point = os.peek();
+            os.remove();
+            
+            point p1 = point(curr_point.x-1,curr_point.y,curr_ctr);
+            point p2 = point(curr_point.x,curr_point.y+1,curr_ctr);
+            point p3 = point(curr_point.x+1,curr_point.y,curr_ctr);
+            point p4 = point(curr_point.x,curr_point.y-1,curr_ctr);
+
+            if (isValid(p1,config) && !isVisited(p1,visited)){
+                (*curr_picker)(p1);
+                k++;
+                if (k%config.frameFreq == 0){
+                    res.addFrame(config.img);
+                }
+                visited.insert(pair<int,int> (p1.x,p1.y));
+                os.add(p1);
+            }
+
+            if (isValid(p2,config) && !isVisited(p2,visited)){
+                (*curr_picker)(p2);
+                visited.insert(pair<int,int> (p2.x,p2.y));
+                os.add(p2);
+            }
+
+            if (isValid(p3,config) && !isVisited(p3,visited)){
+                (*curr_picker)(p3);
+                visited.insert(pair<int,int> (p3.x,p3.y));
+                os.add(p3);
+            }
+
+            if (isValid(p4,config) && !isVisited(p4,visited)){
+                (*curr_picker)(p4);
+                visited.insert(pair<int,int> (p4.x,p4.y));
+                os.add(p4);
+            }
+
+
+        }
+    }
+    
 
     /**
      * @todo You need to implement this function!
