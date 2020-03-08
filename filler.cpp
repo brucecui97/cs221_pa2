@@ -45,63 +45,67 @@ template <template <class T> class OrderingStructure>
 animation filler::fill(FillerConfig &config)
 {
     animation res;
-    set<pair<int, int>> visited;
+    std::vector<std::vector<int>> visited(
+        config.img.height(),
+        std::vector<int>(config.img.width())); // Defaults to zero initial value
 
     OrderingStructure<point> os;
+    int k = 0;
 
-    for (int i = 0;i<config.centers.size();i++){
-        int k = 0;
+    for (int i = 0; i < config.centers.size(); i++)
+    {
+
         center curr_ctr = config.centers.at(i);
-        colorPicker* curr_picker = config.pickers.at(i);
+        colorPicker *curr_picker = config.pickers.at(i);
 
         // Change center node color and mark as visited
-        visited.insert(pair<int,int> (curr_ctr.x,curr_ctr.y));
-        (*curr_picker)(point(curr_ctr));
+        visited.at(curr_ctr.y).at(curr_ctr.x) = 1;
+        HSLAPixel color = (*curr_picker)(point(curr_ctr));
+        *config.img.getPixel(curr_ctr.x, curr_ctr.y) = color;
+        k++;
 
+        if (k % config.frameFreq == 0)
+        {
+            res.addFrame(config.img);
+        }
 
         //add center node to queue
         os.add(point(curr_ctr));
-        while(!os.isEmpty()){
+        while (!os.isEmpty())
+        {
+            
             point curr_point = os.peek();
             os.remove();
-            
-            point p1 = point(curr_point.x-1,curr_point.y,curr_ctr);
-            point p2 = point(curr_point.x,curr_point.y+1,curr_ctr);
-            point p3 = point(curr_point.x+1,curr_point.y,curr_ctr);
-            point p4 = point(curr_point.x,curr_point.y-1,curr_ctr);
 
-            if (isValid(p1,config) && !isVisited(p1,visited)){
-                (*curr_picker)(p1);
-                k++;
-                if (k%config.frameFreq == 0){
-                    res.addFrame(config.img);
+            //std::cout<<"curr_point.x: "<<curr_point.x<< "curr_point.y: "<<curr_point.y<<std::endl;
+
+            point p1 = point(curr_point.x - 1, curr_point.y, curr_ctr);
+            point p2 = point(curr_point.x, curr_point.y + 1, curr_ctr);
+            point p3 = point(curr_point.x + 1, curr_point.y, curr_ctr);
+            point p4 = point(curr_point.x, curr_point.y - 1, curr_ctr);
+            std::vector<point> potential_points = {p1, p2, p3, p4};
+
+            for (point p : potential_points)
+            {
+                if (isValid(p, config) && visited.at(p.y).at(p.x) == 0)
+                {
+                    HSLAPixel color = (*curr_picker)(p);
+                    *config.img.getPixel(p.x, p.y) = color;
+                    k++;
+                    if (k % config.frameFreq == 0)
+                    {
+                        res.addFrame(config.img);
+                    }
+                    visited.at(p.y).at(p.x) = 1;
+                    os.add(p);
                 }
-                visited.insert(pair<int,int> (p1.x,p1.y));
-                os.add(p1);
+                else{
+                    std::cout<<"not valid at point(x,y) "<< p.x<<","<<p.y<<std::endl;
+                }
             }
-
-            if (isValid(p2,config) && !isVisited(p2,visited)){
-                (*curr_picker)(p2);
-                visited.insert(pair<int,int> (p2.x,p2.y));
-                os.add(p2);
-            }
-
-            if (isValid(p3,config) && !isVisited(p3,visited)){
-                (*curr_picker)(p3);
-                visited.insert(pair<int,int> (p3.x,p3.y));
-                os.add(p3);
-            }
-
-            if (isValid(p4,config) && !isVisited(p4,visited)){
-                (*curr_picker)(p4);
-                visited.insert(pair<int,int> (p4.x,p4.y));
-                os.add(p4);
-            }
-
-
         }
     }
-    
+    return res;
 
     /**
      * @todo You need to implement this function!
