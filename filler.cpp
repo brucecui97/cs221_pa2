@@ -101,9 +101,7 @@ animation filler::fill(FillerConfig &config)
                         res.addFrame(config.img);
                     }
 
-                    if (k%100 == 0){
-                    std::cout<<"just visited point(x,y) "<< p.x<<","<<p.y<<std::endl;
-                    }
+     
                     visited.at(p.y).at(p.x) = 1;
                     os.add(p);
                 }
@@ -112,7 +110,7 @@ animation filler::fill(FillerConfig &config)
             }
         }
     }
-    
+
     res.addFrame(config.img);
     return res;
 
