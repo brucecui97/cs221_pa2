@@ -71,14 +71,10 @@ template <template <class T> class OrderingStructure> animation fill(FillerConfi
 
 // Add any helper functions here
 
-bool isValid(point p,FillerConfig config){
-    return (0<=p.x && p.x<config.img.width() && 0<=p.y && p.y<config.img.height());
+bool isValid(point p,int width,int height){
+    return (0<=p.x && p.x<width && 0<=p.y && p.y<height);
 }
 
-bool isVisited(point p,set<pair<int, int>> visited){
-    return visited.find(pair<int,int> (p.x,p.y)) != visited.end();
-
-}
 
 } // namespace filler
 

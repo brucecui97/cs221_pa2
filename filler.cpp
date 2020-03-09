@@ -60,6 +60,7 @@ animation filler::fill(FillerConfig &config)
 
         // Change center node color and mark as visited
         visited.at(curr_ctr.y).at(curr_ctr.x) = 1;
+
         HSLAPixel color = (*curr_picker)(point(curr_ctr));
         *config.img.getPixel(curr_ctr.x, curr_ctr.y) = color;
         k++;
@@ -87,7 +88,7 @@ animation filler::fill(FillerConfig &config)
 
             for (point p : potential_points)
             {
-                if (isValid(p, config) && visited.at(p.y).at(p.x) == 0)
+                if (isValid(p, config.img.width(),config.img.height()) && visited.at(p.y).at(p.x) == 0)
                 {
                     HSLAPixel color = (*curr_picker)(p);
                     *config.img.getPixel(p.x, p.y) = color;
@@ -96,12 +97,14 @@ animation filler::fill(FillerConfig &config)
                     {
                         res.addFrame(config.img);
                     }
+
+                    if (k%100 == 0){
+                    std::cout<<"just visited point(x,y) "<< p.x<<","<<p.y<<std::endl;
+                    }
                     visited.at(p.y).at(p.x) = 1;
                     os.add(p);
                 }
-                else{
-                    std::cout<<"not valid at point(x,y) "<< p.x<<","<<p.y<<std::endl;
-                }
+
             }
         }
     }
