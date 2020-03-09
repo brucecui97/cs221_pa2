@@ -90,6 +90,9 @@ animation filler::fill(FillerConfig &config)
             {
                 if (isValid(p, config.img.width(),config.img.height()) && visited.at(p.y).at(p.x) == 0)
                 {
+
+                    if (p.c.color.dist(*config.img.getPixel(p.x, p.y)) <= config.tolerance){
+
                     HSLAPixel color = (*curr_picker)(p);
                     *config.img.getPixel(p.x, p.y) = color;
                     k++;
@@ -104,10 +107,13 @@ animation filler::fill(FillerConfig &config)
                     visited.at(p.y).at(p.x) = 1;
                     os.add(p);
                 }
+                }
 
             }
         }
     }
+    
+    res.addFrame(config.img);
     return res;
 
     /**
