@@ -45,6 +45,7 @@ template <template <class T> class OrderingStructure>
 animation filler::fill(FillerConfig &config)
 {
     animation res;
+    res.addFrame(config.img);
     std::vector<std::vector<int>> visited(
         config.img.height(),
         std::vector<int>(config.img.width())); // Defaults to zero initial value
